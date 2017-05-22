@@ -41,7 +41,9 @@ Example:
         "BIC": "BANKNL2A",
         "batch": True,
         "creditor_id": "DE26ZZZ00000000000",  # supplied by your bank or financial authority
-        "currency": "EUR"  # ISO 4217
+        "currency": "EUR",  # ISO 4217
+        "created_at": datetime.date.today(), # optional
+        "reference": "mycustomID" # optionnal, will be set in the MsgId and PmtInfId field. Must be unique between files.
     }
     sepa = SepaDD(config, schema="pain.008.002.02")
 

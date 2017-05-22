@@ -206,8 +206,16 @@ class SepaDD(object):
         Nm_node = ET.Element("Nm")
 
         # Add data to some header nodes.
-        MsgId_node.text = make_msg_id()
-        CreDtTm_node.text = datetime.datetime.now().strftime('%Y-%m-%dT%H:%M:%S')
+        if 'reference' in self._config:
+            MsgId_node.text = escape(self._config['reference'])
+        else:
+            MsgId_node.text = make_msg_id()
+
+        if 'created_at' in self._config:
+            CreDtTm_node.text = self._config['created_at'].strftime('%Y-%m-%dT%H:%M:%S')
+        else:
+            CreDtTm_node.text = datetime.datetime.now().strftime('%Y-%m-%dT%H:%M:%S')
+
         Nm_node.text = self._config['name']
 
         # Append the nodes
@@ -423,7 +431,12 @@ class SepaDD(object):
         for batch_meta, batch_nodes in self._batches.items():
             batch_meta_split = batch_meta.split("::")
             PmtInf_nodes = self._create_PmtInf_node()
-            PmtInf_nodes['PmtInfIdNode'].text = make_id(self._config['name'])
+
+            if 'reference' in self._config:
+                PmtInf_nodes['PmtInfIdNode'].text = escape(self._config['reference'])
+            else:
+                PmtInf_nodes['PmtInfIdNode'].text = make_id(self._config['name'])
+
             PmtInf_nodes['PmtMtdNode'].text = "DD"
             PmtInf_nodes['BtchBookgNode'].text = "true"
             PmtInf_nodes['Cd_SvcLvl_Node'].text = "SEPA"
