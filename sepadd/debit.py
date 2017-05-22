@@ -128,7 +128,11 @@ class SepaDD(object):
         TX_nodes['Nm_Dbtr_Node'].text = escape(payment['name'])
         TX_nodes['IBAN_DbtrAcct_Node'].text = payment['IBAN']
         TX_nodes['UstrdNode'].text = escape(payment['description'])
-        TX_nodes['EndToEndIdNode'].text = make_id(self._config['name'])
+
+        if 'reference' in payment:
+            TX_nodes['EndToEndIdNode'].text = escape(payment['reference'])
+        else:
+            TX_nodes['EndToEndIdNode'].text = make_id(self._config['name'])
 
         if self._config['batch']:
             self._add_batch(TX_nodes, payment)

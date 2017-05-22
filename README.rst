@@ -54,7 +54,8 @@ Example:
         "collection_date": datetime.date.today(),
         "mandate_id": "1234",
         "mandate_date": datetime.date.today(),
-        "description": "Test transaction"
+        "description": "Test transaction",
+        "reference": "mycustomID" # optionnal, will be set in the EndToEndId field. Must be unique in a batch.
     }
     sepa.add_payment(payment)
 
